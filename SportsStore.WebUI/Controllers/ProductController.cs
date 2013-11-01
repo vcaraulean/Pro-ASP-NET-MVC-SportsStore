@@ -1,4 +1,5 @@
 ﻿using SportsStore.Domain.Abstract;
+using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Models;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,15 @@ namespace SportsStore.WebUI.Controllers
             this.repository = repository;
         }
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
+            Func<Product, bool> categoriesFilter = p => category == null || p.Category == category;
+
             var viewModel = new ProductListViewModel
             {
                 Products = repository
                                 .Products
+                                .Where(categoriesFilter)
                                 .OrderBy(p => p.ProductID)
                                 .Skip((page - 1) * PageSize)
                                 .Take(PageSize),
@@ -31,8 +35,9 @@ namespace SportsStore.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Products.Count()
-                }
+                    TotalItems = repository.Products.Count(categoriesFilter),
+                },
+                CurrentCategory = category,
             };
 
             return View(viewModel);
