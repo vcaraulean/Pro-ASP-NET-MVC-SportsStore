@@ -3,6 +3,7 @@ using Ninject;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
 using SportsStore.WebUI.Concrete;
+using SportsStore.WebUI.Infrastructure.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -31,6 +32,8 @@ namespace SportsStore.WebUI.Infrastructure
                 WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
             };
             kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("emailSettings", emailSettings);
+
+            kernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
 
         protected override IController GetControllerInstance(System.Web.Routing.RequestContext requestContext, Type controllerType)
