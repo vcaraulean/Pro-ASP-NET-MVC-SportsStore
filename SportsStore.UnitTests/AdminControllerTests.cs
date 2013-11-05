@@ -34,7 +34,7 @@ namespace SportsStore.UnitTests
 
             var product = new Product { Name = "Test" };
 
-            var result = controller.Edit(product);
+            var result = controller.Edit(product, null);
             mock.Verify(m => m.Save(product));
 
             Assert.IsNotInstanceOfType(result, typeof(ViewResult));
@@ -49,7 +49,7 @@ namespace SportsStore.UnitTests
 
             controller.ModelState.AddModelError("error", "error");
 
-            var result = controller.Edit(product);
+            var result = controller.Edit(product, null);
             mock.Verify(m => m.Save(product), Times.Never());
 
             Assert.IsInstanceOfType(result, typeof(ViewResult));
