@@ -20,7 +20,7 @@ namespace SportsStore.WebUI.Concrete
         public string ServerName = "smtp.example.com";
         public int ServerPort = 587;
         public bool WriteAsFile = false;
-        public string FileLocation = @"c:\sports_store_emails";
+        public string FileLocation = @"~/App_Data/sports_store_emails";
     }
 
     public class EmailOrderProcessor : IOrderProcessor
@@ -45,7 +45,7 @@ namespace SportsStore.WebUI.Concrete
                 if (emailSettings.WriteAsFile)
                 {
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-                    smtpClient.PickupDirectoryLocation = emailSettings.FileLocation;
+                    smtpClient.PickupDirectoryLocation = HttpContext.Current.Server.MapPath(emailSettings.FileLocation);
                     smtpClient.EnableSsl = false;
                 }
 

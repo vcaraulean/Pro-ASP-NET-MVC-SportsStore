@@ -254,7 +254,7 @@
     <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\sports_store_emails\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
